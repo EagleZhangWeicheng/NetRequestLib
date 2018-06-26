@@ -23,7 +23,7 @@
     [NetClient initWithBasicURL:@"https://www.sojson.com"];
     NSString *indexURL = @"/open/api/weather/json.shtml?city=北京";
     
-    NetRequest *nr = [[NetRequest alloc] initWithDelegate:self param:nil relativeURLString:indexURL];
+    NetRequest *nr = [[NetRequest alloc] initWithRelativeURLString:indexURL delegate:self];
     nr.isUseCashe = true;
     [nr loadData];
 }
