@@ -19,6 +19,7 @@
 		14849F6120E217820066A7B8 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F6020E217820066A7B8 /* TestViewController.m */; };
 		14849F6420E218470066A7B8 /* BlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F6320E218470066A7B8 /* BlockViewController.m */; };
 		14849F8E20E22FAD0066A7B8 /* NetRequestLib.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 14849F8D20E22FAD0066A7B8 /* NetRequestLib.podspec */; };
+		14849F9020E23B410066A7B8 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 14849F8F20E23B400066A7B8 /* README.md */; };
 		D9F89E374CA7599AF04CFDE3 /* libPods-NetRequestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F32BB4F1968C0F96462AC43E /* libPods-NetRequestLib.a */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		14849F6220E218470066A7B8 /* BlockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockViewController.h; sourceTree = "<group>"; };
 		14849F6320E218470066A7B8 /* BlockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlockViewController.m; sourceTree = "<group>"; };
 		14849F8D20E22FAD0066A7B8 /* NetRequestLib.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NetRequestLib.podspec; sourceTree = SOURCE_ROOT; };
+		14849F8F20E23B400066A7B8 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		A6568FB6A6DD4971EE4F216A /* Pods-NetRequestLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetRequestLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetRequestLib/Pods-NetRequestLib.debug.xcconfig"; sourceTree = "<group>"; };
 		F32BB4F1968C0F96462AC43E /* libPods-NetRequestLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetRequestLib.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -97,6 +99,7 @@
 				14849F4620E0F8B80066A7B8 /* LaunchScreen.storyboard */,
 				14849F4920E0F8B80066A7B8 /* Info.plist */,
 				14849F4A20E0F8B80066A7B8 /* main.m */,
+				14849F8F20E23B400066A7B8 /* README.md */,
 				14849F8D20E22FAD0066A7B8 /* NetRequestLib.podspec */,
 			);
 			path = NetRequestLib;
@@ -193,6 +196,7 @@
 			files = (
 				14849F8E20E22FAD0066A7B8 /* NetRequestLib.podspec in Resources */,
 				14849F4820E0F8B80066A7B8 /* LaunchScreen.storyboard in Resources */,
+				14849F9020E23B410066A7B8 /* README.md in Resources */,
 				14849F4520E0F8B80066A7B8 /* Assets.xcassets in Resources */,
 				14849F4320E0F8B60066A7B8 /* Main.storyboard in Resources */,
 			);
