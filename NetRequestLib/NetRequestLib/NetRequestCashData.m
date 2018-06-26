@@ -53,20 +53,25 @@ static NetRequestCashData *cashData = nil;
 }
 
 
--(void)saveData:(id)data filename:(NSString*)filename{
-    filename = [self cachedFileNameForKey:filename];
-    NSString *savePath = [self getFullPathWithPath:filename];
+-(void)saveData:(id)data urlString:(NSString*)urlString{
+    NSString *filePath = [self getFullFilePathByUrlString:urlString];
     dispatch_async(_ioQueue, ^{
-        NSData *nsdata = [NSKeyedArchiver archivedDataWithRootObject:data];
-        [nsdata writeToFile:savePath atomically:true];
+        BOOL saveStatus = [NSKeyedArchiver archiveRootObject:data toFile:filePath];
+        NSLog(@"saveStauts %d",saveStatus);
     });
 }
 
--(id)getDataByfilename:(NSString*)filename;{
-    filename = [self cachedFileNameForKey:filename];
-    NSString *savePath = [self getFullPathWithPath:filename];
-    NSData *data = [NSData dataWithContentsOfFile:savePath];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+-(id)getDataByUrlString:(NSString*)urlString{
+    NSString *filePath = [self getFullFilePathByUrlString:urlString];
+    return   [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+}
+
+-(NSString*)getFullFilePathByUrlString:(NSString*)urlString{
+    NSString *fullFilePath = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    fullFilePath = [fullFilePath stringByReplacingOccurrencesOfString:@"." withString:@""];
+    fullFilePath = [self cachedFileNameForKey:fullFilePath];
+    fullFilePath = [self getFullPathWithPath:fullFilePath];
+    return fullFilePath;
 }
 
 - (nullable NSString *)cachedFileNameForKey:(nullable NSString *)key { //md5加密路径名称

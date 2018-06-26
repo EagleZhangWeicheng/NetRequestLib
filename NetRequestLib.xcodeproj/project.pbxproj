@@ -16,6 +16,8 @@
 		14849F5620E0F8D60066A7B8 /* NetRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F5120E0F8D40066A7B8 /* NetRequest.m */; };
 		14849F5720E0F8D60066A7B8 /* NetClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F5220E0F8D40066A7B8 /* NetClient.m */; };
 		14849F5D20E1D7E00066A7B8 /* NetRequestCashData.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F5C20E1D7E00066A7B8 /* NetRequestCashData.m */; };
+		14849F6120E217820066A7B8 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F6020E217820066A7B8 /* TestViewController.m */; };
+		14849F6420E218470066A7B8 /* BlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 14849F6320E218470066A7B8 /* BlockViewController.m */; };
 		D9F89E374CA7599AF04CFDE3 /* libPods-NetRequestLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F32BB4F1968C0F96462AC43E /* libPods-NetRequestLib.a */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,10 @@
 		14849F5B20E1D7E00066A7B8 /* NetRequestCashData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetRequestCashData.h; sourceTree = "<group>"; };
 		14849F5C20E1D7E00066A7B8 /* NetRequestCashData.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetRequestCashData.m; sourceTree = "<group>"; };
 		14849F5E20E20A1D0066A7B8 /* NetRequestLib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetRequestLib.h; sourceTree = "<group>"; };
+		14849F5F20E217820066A7B8 /* TestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		14849F6020E217820066A7B8 /* TestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		14849F6220E218470066A7B8 /* BlockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockViewController.h; sourceTree = "<group>"; };
+		14849F6320E218470066A7B8 /* BlockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BlockViewController.m; sourceTree = "<group>"; };
 		A6568FB6A6DD4971EE4F216A /* Pods-NetRequestLib.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NetRequestLib.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NetRequestLib/Pods-NetRequestLib.debug.xcconfig"; sourceTree = "<group>"; };
 		F32BB4F1968C0F96462AC43E /* libPods-NetRequestLib.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-NetRequestLib.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -81,6 +87,10 @@
 				14849F3E20E0F8B60066A7B8 /* ViewController.h */,
 				14849F3F20E0F8B60066A7B8 /* ViewController.m */,
 				14849F4120E0F8B60066A7B8 /* Main.storyboard */,
+				14849F5F20E217820066A7B8 /* TestViewController.h */,
+				14849F6020E217820066A7B8 /* TestViewController.m */,
+				14849F6220E218470066A7B8 /* BlockViewController.h */,
+				14849F6320E218470066A7B8 /* BlockViewController.m */,
 				14849F4420E0F8B80066A7B8 /* Assets.xcassets */,
 				14849F4620E0F8B80066A7B8 /* LaunchScreen.storyboard */,
 				14849F4920E0F8B80066A7B8 /* Info.plist */,
@@ -214,6 +224,8 @@
 			files = (
 				14849F4020E0F8B60066A7B8 /* ViewController.m in Sources */,
 				14849F5720E0F8D60066A7B8 /* NetClient.m in Sources */,
+				14849F6420E218470066A7B8 /* BlockViewController.m in Sources */,
+				14849F6120E217820066A7B8 /* TestViewController.m in Sources */,
 				14849F4B20E0F8B80066A7B8 /* main.m in Sources */,
 				14849F3D20E0F8B60066A7B8 /* AppDelegate.m in Sources */,
 				14849F5D20E1D7E00066A7B8 /* NetRequestCashData.m in Sources */,

@@ -10,24 +10,42 @@
 #import "NetRequestCashData.h"
 @implementation NetRequest
 #pragma init NetRequest
-- (instancetype)initRelativeURLString:(NSString*)relativeURLString
-{
-    self = [super init];
-    if (self) {
-        [self initSetParam];
-    }
-    return self;
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                 delegate:(id)delegate;{
+    return [self initWithRelativeURLString:relativeURLString delegate:delegate param:nil];
 }
 
 
-- (instancetype)initWithDelegate:(id)delegate
-                           param:(id)param
-               relativeURLString:(NSString*)relativeURLString;{
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                 delegate:(id)delegate
+                                    param:(id)param;{
     self = [super init];
     if (self) {
         [self initSetParam];
         self.delegate = delegate;
         self.relativeURLString = relativeURLString;
+        self.param = param;
+    }
+    return self;
+}
+
+
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                  success:(NetRequestSuccess)success
+                                     fail:(NetRequestFail)fail{
+    return [self initWithRelativeURLString:relativeURLString success:success fail:fail param:nil];
+}
+
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                  success:(NetRequestSuccess)success
+                                     fail:(NetRequestFail)fail
+                                    param:(id)param;{
+    self = [super init];
+    if (self) {
+        [self initSetParam];
+        self.relativeURLString = relativeURLString;
+        self.success = success;
+        self.fail = fail;
         self.param = param;
     }
     return self;
@@ -45,15 +63,14 @@
     [self setHeadParam];
     
     NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
-    NSLog(@"tempURLStringtempURLString %@",tempURLString);
     self.currentPage = page;
     
     if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
         id data = nil;
         if (self.isUseCashe) {
-           data = [[NetRequestCashData shareManager] getDataByfilename:_relativeURLString];
+           data = [[NetRequestCashData shareManager] getDataByUrlString:self.relativeURLString];
         }
-        [_delegate willNetRequest:self casheData:nil];
+        [_delegate willNetRequest:self casheData:data];
     }
     
     id  iddelgegate = self.delegate;
@@ -70,7 +87,7 @@
                                }
                                
                                if (self.isUseCashe) {
-                                   [[NetRequestCashData shareManager] saveData:responseObject filename:self.relativeURLString];
+                                   [[NetRequestCashData shareManager] saveData:responseObject urlString:self.relativeURLString];
                                }
                                
                         }
@@ -140,9 +157,9 @@
     if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
         id data = nil;
         if (self.isUseCashe) {
-            data = [[NetRequestCashData shareManager] getDataByfilename:_relativeURLString];
+            data = [[NetRequestCashData shareManager] getDataByUrlString:_relativeURLString];
         }
-        [_delegate willNetRequest:self casheData:nil];
+        [_delegate willNetRequest:self casheData:data];
     }
     
     id  iddelgegate = self.delegate;
@@ -159,7 +176,7 @@
                                 }
 
                                 if (self.isUseCashe) {
-                                    [[NetRequestCashData shareManager] saveData:responseObject filename:self.relativeURLString];
+                                    [[NetRequestCashData shareManager] saveData:responseObject urlString:self.relativeURLString];
                                 }
 
                             }

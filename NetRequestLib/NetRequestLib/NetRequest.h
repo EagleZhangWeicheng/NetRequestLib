@@ -35,12 +35,21 @@ typedef void (^NetRequestFail)(NSError * error);
 
 @property(nonatomic)BOOL isUseCashe; //是否使用缓存 默认不使用
 
-- (instancetype)initRelativeURLString:(NSString*)relativeURLString;
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                 delegate:(id)delegate;
 
-- (instancetype)initWithDelegate:(id)delegate
-                           param:(id)param
-               relativeURLString:(NSString*)relativeURLString;
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                 delegate:(id)delegate
+                                    param:(id)param;
 
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                  success:(NetRequestSuccess)success
+                                     fail:(NetRequestFail)fail;
+
+- (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
+                                  success:(NetRequestSuccess)success
+                                     fail:(NetRequestFail)fail
+                                    param:(id)param;
 
 #pragma load data
 -(void)loadData; //加载数据

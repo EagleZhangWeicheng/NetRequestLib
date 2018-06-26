@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NetRequestCashData : NSObject
--(void)saveData:(id)data filename:(NSString*)filename;
--(id)getDataByfilename:(NSString*)filename;
+-(void)saveData:(id)data urlString:(NSString*)urlString;
+-(id)getDataByUrlString:(NSString*)urlString;
 +(NetRequestCashData*)shareManager;
 @end
