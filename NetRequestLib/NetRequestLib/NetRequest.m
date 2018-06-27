@@ -67,7 +67,6 @@
 
     NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
     id  iddelgegate = self.delegate;
-    
     [[NetClient sharedManager] GET:tempURLString
                         parameters:self.param
                           progress:nil
