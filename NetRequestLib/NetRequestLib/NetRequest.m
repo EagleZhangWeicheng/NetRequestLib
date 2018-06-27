@@ -7,7 +7,8 @@
 //
 
 #import "NetRequest.h"
-#import "NetRequestCashData.h"
+
+
 @implementation NetRequest
 #pragma init NetRequest
 - (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
@@ -60,45 +61,34 @@
 
 
 -(void)loadDataWithPage:(NSInteger)page{ //获取page页的数据
-    [self setHeadParam];
-    
-    NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
     self.currentPage = page;
     
-    if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
-        id data = nil;
-        if (self.isUseCashe) {
-           data = [[NetRequestCashData shareManager] getDataByUrlString:self.relativeURLString];
-        }
-        [_delegate willNetRequest:self casheData:data];
-    }
-    
+    [self setWillNetRequstWithInUseCashe:true];
+
+    NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
     id  iddelgegate = self.delegate;
+    
     [[NetClient sharedManager] GET:tempURLString
                         parameters:self.param
                           progress:nil
                            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                               if ([iddelgegate respondsToSelector:@selector(netRequestDidFinished:getData:)]) {
-                                   [iddelgegate netRequestDidFinished:self getData:responseObject];
+                               if (self.isUseError) {
+                                   [self removeErrorView];
                                }
                                
-                               if (self.success != nil) {
-                                   self.success(responseObject);
-                               }
+                               [self setNetRequstFinishedWithDelegate:iddelgegate data:responseObject];
                                
                                if (self.isUseCashe) {
-                                   [[NetRequestCashData shareManager] saveData:responseObject urlString:self.relativeURLString];
+                                   [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:self.relativeURLString];
                                }
-                               
                         }
                            failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                            if ([iddelgegate respondsToSelector:@selector(netRequestDidFailed:getError:)]) {
-                                [iddelgegate netRequestDidFailed:self getError:error];
-                            }
-                            
-                            if (self.fail != nil) {
-                                self.fail(error);
-                            }
+
+                               [self setNetRequstFailedWithWithDelegate:iddelgegate error:error];
+
+                               if (self.isUseError) {
+                                   [self addErrorView];
+                               }
                         }];
 }
 
@@ -149,44 +139,32 @@
 
 
 -(void)postDataWithPage:(NSInteger)page{ //获取page页的数据
-    [self setHeadParam];
-    
-    NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
     self.currentPage = page;
     
-    if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
-        id data = nil;
-        if (self.isUseCashe) {
-            data = [[NetRequestCashData shareManager] getDataByUrlString:_relativeURLString];
-        }
-        [_delegate willNetRequest:self casheData:data];
-    }
+    //开始加载
+    [self setWillNetRequstWithInUseCashe:true];
     
+    NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
     id  iddelgegate = self.delegate;
     [[NetClient sharedManager] POST:tempURLString
                          parameters:self.param
                            progress:nil
                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                if ([iddelgegate respondsToSelector:@selector(netRequestDidFinished:getData:)]) {
-                                    [iddelgegate netRequestDidFinished:self getData:responseObject];
+                                if (self.isUseError) {
+                                    [self removeErrorView];
                                 }
-                                
-                                if (self.success != nil ) {
-                                    self.success(responseObject);
-                                }
+
+                                [self setNetRequstFinishedWithDelegate:iddelgegate data:responseObject];
 
                                 if (self.isUseCashe) {
-                                    [[NetRequestCashData shareManager] saveData:responseObject urlString:self.relativeURLString];
+                                    [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:self.relativeURLString];
                                 }
-
                             }
                             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                if ([iddelgegate respondsToSelector:@selector(netRequestDidFailed:getError:)]) {
-                                    [iddelgegate netRequestDidFailed:self getError:error];
-                                }
+                                [self setNetRequstFailedWithWithDelegate:iddelgegate error:error];
                                 
-                                if (self.fail != nil) {
-                                    self.fail(error);
+                                if (self.isUseError) {
+                                    [self addErrorView];
                                 }
                             }];
 }
@@ -254,60 +232,32 @@
 #pragma del data 删除数据
 -(void)delData;
 {
-    [self setHeadParam];
-    if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
-        [_delegate willNetRequest:self casheData:nil];
-    }
+    [self setWillNetRequstWithInUseCashe:false];
+    
+    NSString *tempURLString = [self returnRelativeURLStringWithPage:1];
     id idDelegate = self.delegate;
-    [[NetClient sharedManager] DELETE:self.relativeURLString
+    [[NetClient sharedManager] DELETE:tempURLString
                            parameters:self.param
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                  if ([idDelegate respondsToSelector:@selector(netRequestDidFinished:getData:)]) {
-                                      [idDelegate netRequestDidFinished:self getData:responseObject];
-                                  }
-                                  
-                                  if (self.success != nil) {
-                                      self.success(responseObject);
-                                  }
-                                  
+                                  [self setNetRequstFinishedWithDelegate:idDelegate data:responseObject];
                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  if ([idDelegate respondsToSelector:@selector(netRequestDidFailed:getError:)]) {
-                                      [idDelegate netRequestDidFailed:self getError:error];
-                                  }
-                                  
-                                  if (self.fail != nil) {
-                                      self.fail(error);
-                                  }
+                                  [self setNetRequstFailedWithWithDelegate:idDelegate error:error];
                               }];
 }
 
 
 #pragma mark patch data 修改数据
 -(void)patchData;{
-    [self setHeadParam];
-    if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
-        [_delegate willNetRequest:self casheData:nil];
-    }
+    [self setWillNetRequstWithInUseCashe:false];
     
+    NSString *tempURLString = [self returnRelativeURLStringWithPage:1];
     id idDelegate = self.delegate;
-    [[NetClient sharedManager] PATCH:self.relativeURLString
+    [[NetClient sharedManager] PATCH:tempURLString
                            parameters:self.param
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                  if ([idDelegate respondsToSelector:@selector(netRequestDidFinished:getData:)]) {
-                                      [idDelegate netRequestDidFinished:self getData:responseObject];
-                                  }
-                                  
-                                  if (self.success != nil) {
-                                      self.success(responseObject);
-                                  }
+                                  [self setNetRequstFinishedWithDelegate:idDelegate data:responseObject];
                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  if ([idDelegate respondsToSelector:@selector(netRequestDidFailed:getError:)]) {
-                                      [idDelegate netRequestDidFailed:self getError:error];
-                                  }
-                                  
-                                  if (self.fail != nil) {
-                                      self.fail(error);
-                                  }
+                                  [self setNetRequstFailedWithWithDelegate:idDelegate error:error];
                               }];
 }
 
@@ -317,15 +267,11 @@
            fileName:(NSString*)fileName // @"1111.jpg"
            mimeType:(NSString*)mimeType //@"image/jpg"];
              image :(UIImage*)image;{
-    [self setHeadParam];
-    
-    if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
-        [_delegate willNetRequest:self casheData:nil];
-    }
+    [self setWillNetRequstWithInUseCashe:false];
 
     id idDelegate = self.delegate;
-
-    [[NetClient sharedManager] POST:self.relativeURLString
+    NSString *tempURLString = [self returnRelativeURLStringWithPage:1];
+    [[NetClient sharedManager] POST:tempURLString
                          parameters:self.param
           constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
               NSData *data  = UIImageJPEGRepresentation(image, 0.7);
@@ -336,16 +282,66 @@
           } progress:^(NSProgress * _Nonnull uploadProgress) {
               
           } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-              if ([idDelegate respondsToSelector:@selector(netRequestDidFinished:getData:)]) {
-                  [idDelegate netRequestDidFinished:self getData:responseObject];
-              }
-
+              [self setNetRequstFinishedWithDelegate:idDelegate data:responseObject];
               
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              if ([idDelegate respondsToSelector:@selector(netRequestDidFailed:getError:)]) {
-                  [idDelegate netRequestDidFailed:self getError:error];
-              }
+              [self setNetRequstFailedWithWithDelegate:idDelegate error:error];
           }];
 }
 
+//开始动作
+-(void)setWillNetRequstWithInUseCashe:(BOOL)inUseCashe //inUseCashe 里面是否使用缓存 get post 为ture de patch false
+{
+    [self setHeadParam];
+    //开始加载数据
+    if([_delegate respondsToSelector:@selector(willNetRequest:casheData:)]){
+        id data = nil;
+        if (self.isUseCashe && inUseCashe) {
+            data = [[NetRequestCashData shareManager] getDataByUrlString:self.relativeURLString];
+        }
+        [_delegate willNetRequest:self casheData:data];
+    }
+    
+    if (self.success != nil && self.isUseCashe  && inUseCashe) {
+        id data = [[NetRequestCashData shareManager] getDataByUrlString:self.relativeURLString];
+        self.success(data);
+    }
+}
+
+//完成动作
+-(void)setNetRequstFinishedWithDelegate:(id)iddelgegate data:(id)responseObject{
+    if ([iddelgegate respondsToSelector:@selector(netRequestDidFinished:getData:)]) {
+        [iddelgegate netRequestDidFinished:self getData:responseObject];
+    }
+    
+    if (self.success != nil) {
+        self.success(responseObject);
+    }
+}
+
+//出错
+-(void)setNetRequstFailedWithWithDelegate:(id)iddelgegate error:(NSError*)error{
+    if ([iddelgegate respondsToSelector:@selector(netRequestDidFailed:getError:)]) {
+        [iddelgegate netRequestDidFailed:self getError:error];
+    }
+    
+    if (self.fail != nil) {
+        self.fail(error);
+    }
+}
+
+
+-(void)addErrorView{
+    if ([self.delegate isKindOfClass:[UIViewController class]]) {
+        UIViewController *vc = (UIViewController*)self.delegate;
+        [vc addNetRequestErrorView];
+    }
+}
+
+-(void)removeErrorView{
+    if ([self.delegate isKindOfClass:[UIViewController class]]) {
+        UIViewController *vc = (UIViewController*)self.delegate;
+        [vc removeNetRequestErrorView];
+    }
+}
 @end

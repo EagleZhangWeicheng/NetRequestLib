@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NetRequestCashData.h"
 #import "NetClient.h"
+#import "UIViewController+NetRequestLib.h"
 #import <AFNetworking/AFNetworking.h>
 
 @class NetRequest;
@@ -34,6 +36,8 @@ typedef void (^NetRequestFail)(NSError * error);
 @property(nonatomic,copy) NetRequestFail fail;
 
 @property(nonatomic)BOOL isUseCashe; //是否使用缓存 默认不使用
+@property(nonatomic)BOOL isUseError; //是否使用异常view 默认不使用
+
 
 - (instancetype)initWithRelativeURLString:(NSString*)relativeURLString
                                  delegate:(id)delegate;

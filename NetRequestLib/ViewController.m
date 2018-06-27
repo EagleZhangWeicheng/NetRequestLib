@@ -7,9 +7,8 @@
 //
 
 #import "ViewController.h"
-#import "NetRequest.h"
 #import <CommonCrypto/CommonDigest.h>
-#import "NetRequestCashData.h"
+#import "NetRequestLib.h"
 @interface ViewController ()<NetRequestDelegate>
 
 @end
@@ -20,12 +19,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.title = @"带缓存请求";
+    [self reloadData];
+}
+
+-(void)reloadData{
     [NetClient initWithBasicURL:@"https://www.sojson.com"];
     NSString *indexURL = @"/open/api/weather/json.shtml?city=北京";
     
     NetRequest *nr = [[NetRequest alloc] initWithRelativeURLString:indexURL delegate:self];
     nr.isUseCashe = true;
+    nr.isUseError = true;
     [nr loadData];
+
 }
 
 -(void)willNetRequest:(NetRequest*) netRequest casheData:(id)data;{

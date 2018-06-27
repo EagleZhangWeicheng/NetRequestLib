@@ -9,3 +9,4 @@
 #import "NetClient.h"
 #import "NetRequestCashData.h"
 #import "NetRequest.h"
+#import "UIViewController+NetRequestLib.h"

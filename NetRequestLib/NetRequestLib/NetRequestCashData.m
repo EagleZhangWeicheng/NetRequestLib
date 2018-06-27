@@ -53,7 +53,10 @@ static NetRequestCashData *cashData = nil;
 }
 
 
--(void)saveData:(id)data urlString:(NSString*)urlString{
+-(void)saveData:(id)data page:(NSInteger)page urlString:(NSString*)urlString;{
+    if (page != 1) {
+        return;
+    }
     NSString *filePath = [self getFullFilePathByUrlString:urlString];
     dispatch_async(_ioQueue, ^{
         BOOL saveStatus = [NSKeyedArchiver archiveRootObject:data toFile:filePath];
