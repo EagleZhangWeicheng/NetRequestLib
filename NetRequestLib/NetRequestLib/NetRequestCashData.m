@@ -65,6 +65,7 @@ static NetRequestCashData *cashData = nil;
         }
         @catch (NSException *e){
             NSLog(@"e %@",e);
+            return ;
         }
     });
 }
