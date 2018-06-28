@@ -23,8 +23,11 @@
 }
 
 -(void)reloadData{
-    [NetClient initWithBasicURL:@"https://www.sojson.com"];
-    NSString *indexURL = @"/open/api/weather/json.shtml?city=北京";
+//    [NetClient initWithBasicURL:@"https://www.sojson.com"];
+//    NSString *indexURL = @"/open/api/weather/json.shtml?city=北京";
+    [NetClient initWithBasicURL:@"https://www.baidu.com"];
+    NSString *indexURL = @"";
+
     
     NetRequest *nr = [[NetRequest alloc] initWithRelativeURLString:indexURL delegate:self];
     nr.isUseCashe = true;

@@ -17,8 +17,8 @@
 @protocol NetRequestDelegate <NSObject>
 @optional
 -(void)willNetRequest:(NetRequest*) netRequest casheData:(id)data;
--(void)netRequestDidFinished:(NetRequest*) netRequest getData:(id)data;
--(void)netRequestDidFailed:(NetRequest* )netRequest getError:(NSError*)error;
+-(void)netRequestDidFinished:(NetRequest*) netRequest responseData:(id)data;
+-(void)netRequestDidFailed:(NetRequest* )netRequest error:(NSError*)error;
 @end
 
 typedef void (^NetRequestSuccess)(id data);
