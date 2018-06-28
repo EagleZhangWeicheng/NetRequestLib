@@ -73,7 +73,7 @@
                                [self setNetRequstFinishedWithDelegate:iddelgegate data:responseObject];
                                
                                if (self.isUseCashe) {
-                                   [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:self.relativeURLString];
+                                   [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:tempURLString];
                                }
                         }
                            failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

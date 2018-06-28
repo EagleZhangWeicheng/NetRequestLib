@@ -59,8 +59,13 @@ static NetRequestCashData *cashData = nil;
     }
     NSString *filePath = [self getFullFilePathByUrlString:urlString];
     dispatch_async(_ioQueue, ^{
-        BOOL saveStatus = [NSKeyedArchiver archiveRootObject:data toFile:filePath];
-        NSLog(@"saveStauts %d",saveStatus);
+        @try{
+            BOOL saveStatus = [NSKeyedArchiver archiveRootObject:data toFile:filePath];
+            NSLog(@"saveStauts %d",saveStatus);
+        }
+        @catch (NSException *e){
+            NSLog(@"e %@",e);
+        }
     });
 }
 
@@ -70,10 +75,10 @@ static NetRequestCashData *cashData = nil;
 }
 
 -(NSString*)getFullFilePathByUrlString:(NSString*)urlString{
-    NSString *fullFilePath = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    fullFilePath = [fullFilePath stringByReplacingOccurrencesOfString:@"." withString:@""];
-    fullFilePath = [self cachedFileNameForKey:fullFilePath];
-    fullFilePath = [self getFullPathWithPath:fullFilePath];
+    NSString *fileName = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    fileName = [fileName stringByReplacingOccurrencesOfString:@"." withString:@""];
+    fileName = [self cachedFileNameForKey:fileName];
+    NSString *fullFilePath = [self getFullPathWithFileName:fileName];
     return fullFilePath;
 }
 
@@ -93,8 +98,8 @@ static NetRequestCashData *cashData = nil;
 }
 
 
--(NSString*)getFullPathWithPath:(NSString*)path{
-    return [self.diskCachePath stringByAppendingPathComponent:path];
+-(NSString*)getFullPathWithFileName:(NSString*)fileName{
+    return [self.diskCachePath stringByAppendingPathComponent:fileName];
 }
 
 
