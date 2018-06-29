@@ -21,18 +21,23 @@
     [NetClient initWithBasicURL:@"https://www.sojson.com"];
     NSString *indexURL = @"/open/api/weather/json.shtml?city=北京";
     
+//    NetRequest *nr = [[NetRequest alloc] initWithRelativeURLString:indexURL delegate:self];
+//    [nr loadData];
+    
     NetRequest *nr = [[NetRequest alloc] initWithRelativeURLString:indexURL delegate:self];
+//    nr.isUseError = true;
     [nr loadData];
+
 }
 
 -(void)willNetRequest:(NetRequest*) netRequest casheData:(id)data;{
     NSLog(@"cashedata %@",data);
 }
--(void)netRequestDidFinished:(NetRequest*) netRequest getData:(id)data;{
-    NSLog(@"data %@",data);
+-(void)netRequestDidFinished:(NetRequest*) netRequest responseData:(id)data;{
+    NSLog(@"responseData data %@",data);
 }
 
--(void)netRequestDidFailed:(NetRequest* )netRequest getError:(NSError*)error;{
+-(void)netRequestDidFailed:(NetRequest* )netRequest error:(NSError*)error;{
     NSLog(@"error %@",error);
 }
 
