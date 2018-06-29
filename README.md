@@ -7,8 +7,9 @@
 <p>pod 'NetRequestLib'</p>
 
 <p><b>2、使用</b></p>
-<p>① 代理使用</p>
+<p>需要工程中全局初始化一次</p>
 <p>[NetClient initWithBasicURL:@"https://www.example.com"]; //一定需要初始化一次就行</p>
+<p>① 代理使用</p>
 <p>NSString *indexURLStr = @"/api/example";</p>
 <p>NetRequest *nr = [[NetRequest alloc] initWithRelativeURLString:indexURLStr delegate:self];</p>
 <p>[nr loadData];</p>
