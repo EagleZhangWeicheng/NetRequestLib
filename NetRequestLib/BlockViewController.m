@@ -29,6 +29,7 @@
                                                                NSLog(@"block error %@",error);
                                                            }];
     [nr loadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
