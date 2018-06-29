@@ -2,7 +2,9 @@
 封装AFNetworking的网络请求  可以缓请求数据
 
 <p><b>1、 集成</b></p>
-<p>使用cocoaPos 集成     pod 'NetRequestLib',:git => 'https://github.com/EagleZhangWeicheng/NetRequestLib.git'</p>
+<p>使用cocoaPos 集成 </p>  
+<p>pod 'NetRequestLib',:git => 'https://github.com/EagleZhangWeicheng/NetRequestLib.git'</p>
+<p>pod 'NetRequestLib'</p>
 
 <p><b>2、使用</b></p>
 <p>①代理使用</p>
@@ -29,7 +31,7 @@ NSLog(@"block error %@",error);
 
 
 <p>③上传图片</p>
-[nr postImageKey:@"imageKey" fileName:@"imageFileName" mimeType:@"jpg" image:image];
+[nr postImageKey:@"imageKey" fileName:@"imageFileName" mimeType:@"image/jpg" image:image];
 
 
 <p>④其他使用</p>
@@ -37,8 +39,11 @@ NSLog(@"block error %@",error);
 <p>nr.isUseCashe = true;</p>
 <p>-(void)willNetRequest:(NetRequest*) netRequest casheData:(id)data; //这里返回缓存数据</p>
 
+<p>加载失败view在viewcontroller中提示 也可以使用自定义的加载</p>
+<p>nr.isUseError = true;</p>
+
 
 <p><b>4、注意</b></p>
-<p>如果有分页加载数据的情况的话需要处理好分页数据中的缓存<、p>
+<p>如果有分页加载数据的情况的话需要处理好分页数据中的缓存</p>
 
 
