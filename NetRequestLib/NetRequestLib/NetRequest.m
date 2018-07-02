@@ -61,25 +61,27 @@
     [self setWillNetRequstWithInUseCashe:true];
 
     NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
-    id  iddelgegate = self.delegate;
+    __weak typeof(self) wself = self;
     [[NetClient sharedManager] GET:tempURLString
                         parameters:self.param
                           progress:nil
                            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                               if (self.isUseError) {
-                                   [self removeErrorView];
+                               __strong typeof(wself) sself = wself;
+                               if (sself.isUseError) {
+                                   [sself removeErrorView];
                                }
                                
-                               [self setNetRequstFinishedWithDelegate:iddelgegate data:responseObject];
+                               [sself setNetRequstFinishedWithData:responseObject];
                                
-                               if (self.isUseCashe) {
-                                   [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:tempURLString];
+                               if (sself.isUseCashe) {
+                                   [[NetRequestCashData shareManager] saveData:responseObject page:sself.currentPage urlString:tempURLString];
                                }
                         }
                            failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                               [self setNetRequstFailedWithWithDelegate:iddelgegate error:error];
-                               if (self.isUseError) {
-                                   [self addErrorView];
+                               __strong typeof(self) sself = wself;
+                               [sself setNetRequstFailedWithError:error];
+                               if (sself.isUseError) {
+                                   [sself addErrorView];
                                }
                         }];
 }
@@ -111,24 +113,28 @@
     self.currentPage = page;
     [self setWillNetRequstWithInUseCashe:true];
     NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
-    id  iddelgegate = self.delegate;
-    
+    __weak typeof(self) wself = self;
     [[NetClient sharedManager] POST:tempURLString
                          parameters:self.param
                            progress:nil
                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                if (self.isUseError) { //移除错误提示
-                                    [self removeErrorView];
+                                __strong typeof(wself) sself = wself;
+
+                                if (sself.isUseError) { //移除错误提示
+                                    [sself removeErrorView];
                                 }
-                                [self setNetRequstFinishedWithDelegate:iddelgegate data:responseObject];
-                                if (self.isUseCashe) {
-                                    [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:tempURLString];
+                                
+                                [sself setNetRequstFinishedWithData:responseObject];
+                                if (sself.isUseCashe) {
+                                    [[NetRequestCashData shareManager] saveData:responseObject page:sself.currentPage urlString:tempURLString];
                                 }
                             }
                             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                [self setNetRequstFailedWithWithDelegate:iddelgegate error:error];
-                                if (self.isUseError) { //加错误提示
-                                    [self addErrorView];
+                                __weak typeof(wself) sself = wself;
+
+                                [sself setNetRequstFailedWithError:error];
+                                if (sself.isUseError) { //加错误提示
+                                    [sself addErrorView];
                                 }
                             }];
 }
@@ -192,13 +198,15 @@
     [self setWillNetRequstWithInUseCashe:false];
     
     NSString *tempURLString = [self returnRelativeURLStringWithPage:0];
-    id idDelegate = self.delegate;
+    __weak typeof(self) wself = self;
     [[NetClient sharedManager] DELETE:tempURLString
                            parameters:self.param
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                  [self setNetRequstFinishedWithDelegate:idDelegate data:responseObject];
+                                  __strong typeof(wself) sself = wself;
+                                  [sself setNetRequstFinishedWithData:responseObject];
                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  [self setNetRequstFailedWithWithDelegate:idDelegate error:error];
+                                  __strong typeof(wself) sself = wself;
+                                  [sself setNetRequstFailedWithError:error];
                               }];
 }
 
@@ -207,13 +215,15 @@
     [self setWillNetRequstWithInUseCashe:false];
     
     NSString *tempURLString = [self returnRelativeURLStringWithPage:0];
-    id idDelegate = self.delegate;
+    __weak typeof(self) wself = self;
     [[NetClient sharedManager] PATCH:tempURLString
                            parameters:self.param
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                  [self setNetRequstFinishedWithDelegate:idDelegate data:responseObject];
+                                  __strong typeof(wself) sself = wself;
+                                  [sself setNetRequstFinishedWithData:responseObject];
                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  [self setNetRequstFailedWithWithDelegate:idDelegate error:error];
+                                  __strong typeof(wself) sself = wself;
+                                  [sself setNetRequstFailedWithError:error];
                               }];
 }
 
@@ -224,7 +234,8 @@
              image :(UIImage*)image;{
     [self setWillNetRequstWithInUseCashe:false];
 
-    id idDelegate = self.delegate;
+//    id idDelegate = self.delegate;
+    __strong typeof(self) wself = self;
     NSString *tempURLString = [self returnRelativeURLStringWithPage:0];
     [[NetClient sharedManager] POST:tempURLString
                          parameters:self.param
@@ -237,10 +248,11 @@
           } progress:^(NSProgress * _Nonnull uploadProgress) {
               
           } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-              [self setNetRequstFinishedWithDelegate:idDelegate data:responseObject];
-              
+              __strong typeof(wself) sself = wself;
+              [sself setNetRequstFinishedWithData:responseObject];
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              [self setNetRequstFailedWithWithDelegate:idDelegate error:error];
+              __strong typeof(wself) sself = wself;
+              [sself setNetRequstFailedWithError:error];
           }];
 }
 
@@ -285,9 +297,9 @@
 }
 
 #pragma mark 请求成功
--(void)setNetRequstFinishedWithDelegate:(id)iddelgegate data:(id)responseObject{
-    if ([iddelgegate respondsToSelector:@selector(netRequestDidFinished:responseData:)]) {
-        [iddelgegate netRequestDidFinished:self responseData:responseObject];
+-(void)setNetRequstFinishedWithData:(id)responseObject{
+    if ([self.delegate respondsToSelector:@selector(netRequestDidFinished:responseData:)]) {
+        [self.delegate netRequestDidFinished:self responseData:responseObject];
     }
     
     if (self.success != nil) {
@@ -297,9 +309,9 @@
 
 
 #pragma mark 请求失败
--(void)setNetRequstFailedWithWithDelegate:(id)iddelgegate error:(NSError*)error{
-    if ([iddelgegate respondsToSelector:@selector(netRequestDidFailed:error:)]) {
-        [iddelgegate netRequestDidFailed:self error:error];
+-(void)setNetRequstFailedWithError:(NSError*)error{
+    if ([self.delegate respondsToSelector:@selector(netRequestDidFailed:error:)]) {
+        [self.delegate netRequestDidFailed:self error:error];
     }
     
     if (self.fail != nil) {
