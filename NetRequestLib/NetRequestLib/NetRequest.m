@@ -61,27 +61,24 @@
     [self setWillNetRequstWithInUseCashe:true];
 
     NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
-    __weak typeof(self) wself = self;
     [[NetClient sharedManager] GET:tempURLString
                         parameters:self.param
                           progress:nil
                            success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                               __strong typeof(wself) sself = wself;
-                               if (sself.isUseError) {
-                                   [sself removeErrorView];
+                               if (self.isUseError) {
+                                   [self removeErrorView];
                                }
                                
-                               [sself setNetRequstFinishedWithData:responseObject];
+                               [self setNetRequstFinishedWithData:responseObject];
                                
-                               if (sself.isUseCashe) {
-                                   [[NetRequestCashData shareManager] saveData:responseObject page:sself.currentPage urlString:tempURLString];
+                               if (self.isUseCashe) {
+                                   [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:tempURLString];
                                }
                         }
                            failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                               __strong typeof(self) sself = wself;
-                               [sself setNetRequstFailedWithError:error];
-                               if (sself.isUseError) {
-                                   [sself addErrorView];
+                               [self setNetRequstFailedWithError:error];
+                               if (self.isUseError) {
+                                   [self addErrorView];
                                }
                         }];
 }
@@ -113,28 +110,23 @@
     self.currentPage = page;
     [self setWillNetRequstWithInUseCashe:true];
     NSString *tempURLString = [self returnRelativeURLStringWithPage:page];
-    __weak typeof(self) wself = self;
     [[NetClient sharedManager] POST:tempURLString
                          parameters:self.param
                            progress:nil
                             success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                __strong typeof(wself) sself = wself;
-
-                                if (sself.isUseError) { //移除错误提示
-                                    [sself removeErrorView];
+                                if (self.isUseError) { //移除错误提示
+                                    [self removeErrorView];
                                 }
                                 
-                                [sself setNetRequstFinishedWithData:responseObject];
-                                if (sself.isUseCashe) {
-                                    [[NetRequestCashData shareManager] saveData:responseObject page:sself.currentPage urlString:tempURLString];
+                                [self setNetRequstFinishedWithData:responseObject];
+                                if (self.isUseCashe) {
+                                    [[NetRequestCashData shareManager] saveData:responseObject page:self.currentPage urlString:tempURLString];
                                 }
                             }
                             failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                __weak typeof(wself) sself = wself;
-
-                                [sself setNetRequstFailedWithError:error];
-                                if (sself.isUseError) { //加错误提示
-                                    [sself addErrorView];
+                                [self setNetRequstFailedWithError:error];
+                                if (self.isUseError) { //加错误提示
+                                    [self addErrorView];
                                 }
                             }];
 }
@@ -198,15 +190,12 @@
     [self setWillNetRequstWithInUseCashe:false];
     
     NSString *tempURLString = [self returnRelativeURLStringWithPage:0];
-    __weak typeof(self) wself = self;
     [[NetClient sharedManager] DELETE:tempURLString
                            parameters:self.param
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                  __strong typeof(wself) sself = wself;
-                                  [sself setNetRequstFinishedWithData:responseObject];
+                                  [self setNetRequstFinishedWithData:responseObject];
                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  __strong typeof(wself) sself = wself;
-                                  [sself setNetRequstFailedWithError:error];
+                                  [self setNetRequstFailedWithError:error];
                               }];
 }
 
@@ -215,15 +204,12 @@
     [self setWillNetRequstWithInUseCashe:false];
     
     NSString *tempURLString = [self returnRelativeURLStringWithPage:0];
-    __weak typeof(self) wself = self;
     [[NetClient sharedManager] PATCH:tempURLString
                            parameters:self.param
                               success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                                  __strong typeof(wself) sself = wself;
-                                  [sself setNetRequstFinishedWithData:responseObject];
+                                  [self setNetRequstFinishedWithData:responseObject];
                               } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                                  __strong typeof(wself) sself = wself;
-                                  [sself setNetRequstFailedWithError:error];
+                                  [self setNetRequstFailedWithError:error];
                               }];
 }
 
@@ -234,8 +220,6 @@
              image :(UIImage*)image;{
     [self setWillNetRequstWithInUseCashe:false];
 
-//    id idDelegate = self.delegate;
-    __strong typeof(self) wself = self;
     NSString *tempURLString = [self returnRelativeURLStringWithPage:0];
     [[NetClient sharedManager] POST:tempURLString
                          parameters:self.param
@@ -248,11 +232,9 @@
           } progress:^(NSProgress * _Nonnull uploadProgress) {
               
           } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-              __strong typeof(wself) sself = wself;
-              [sself setNetRequstFinishedWithData:responseObject];
+              [self setNetRequstFinishedWithData:responseObject];
           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-              __strong typeof(wself) sself = wself;
-              [sself setNetRequstFailedWithError:error];
+              [self setNetRequstFailedWithError:error];
           }];
 }
 
